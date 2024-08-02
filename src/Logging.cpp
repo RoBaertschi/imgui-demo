@@ -5,27 +5,24 @@
 #include "spdlog/sinks/stdout_color_sinks.h"
 #include <config.h>
 
-static std::optional<spdlog::logger> logger;
-
-void InitLogger() {
-    auto console_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
+static struct SGlobalLogger {
+    SGlobalLogger() {
 #ifndef NDEBUG
-    console_sink->set_level(spdlog::level::debug);
+        console_sink->set_level(spdlog::level::debug);
+        logger.set_level(spdlog::level::debug);
 #else
-    console_sink->set_level(spdlog::level::info);
+        console_sink->set_level(spdlog::level::info);
+        logger.set_level(spdlog::level::info);
 #endif
+    }
 
-    // TODO: Add File Sink
+    std::shared_ptr<spdlog::sinks::stdout_color_sink_mt> console_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
+    spdlog::logger logger{PROJECT_NAME, {console_sink}};
 
-    logger = spdlog::logger(PROJECT_NAME, {console_sink});
-#ifndef NDEBUG
-    console_sink->set_level(spdlog::level::debug);
-    logger.value().set_level(spdlog::level::debug);
-#else
-    console_sink->set_level(spdlog::level::info);
-#endif
-}
+
+} global_logger;
+
 
 spdlog::logger* GetLogger() {
-    return &logger.value();
+    return &global_logger.logger;
 }
