@@ -20,7 +20,7 @@ CWindow::CWindow() {
     SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
     SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
 
-    window = SDL_CreateWindow("Boolean Tables", cWinWidth, cWinHeight, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
+    window = SDL_CreateWindow("ImGui Demo", cWinWidth, cWinHeight, SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
     if (window == nullptr) {
         throw std::runtime_error("Could not create a SDL3 Window");
     }

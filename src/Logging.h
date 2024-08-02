@@ -20,7 +20,6 @@
 #define ERROR(...) GetLogger()->error(__VA_ARGS__)
 #define CRITICAL(...) GetLogger()->critical(__VA_ARGS__)
 
-void InitLogger();
 spdlog::logger* GetLogger();
 
 #endif //BOOLEANTABLE_LOGGING_H

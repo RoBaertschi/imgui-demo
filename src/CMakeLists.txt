@@ -1,12 +1,14 @@
+set(TARGET_NAME "${PROJECT_NAME}")
+
 configure_file(config.h.in config.h)
 
-add_executable(imgui-demo main.cpp
+add_executable(${TARGET_NAME} main.cpp
         Window.cpp
         Window.h
         Logging.h
         Logging.cpp
         )
-target_link_libraries(imgui-demo PRIVATE
+target_link_libraries(${TARGET_NAME} PRIVATE
         imgui::imgui imgui::opengl3 imgui::sdl3 # imgui
         SDL3::SDL3 # windowing
         glad::opengl # opengl loader
@@ -15,7 +17,7 @@ target_link_libraries(imgui-demo PRIVATE
 )
 
 target_include_directories(
-        imgui-demo PUBLIC
+        ${TARGET_NAME} PUBLIC
         "${CMAKE_CURRENT_BINARY_DIR}"
 )
 
@@ -30,9 +32,9 @@ if (${WIN32})
                 POST_BUILD
                 COMMAND ${CMAKE_COMMAND} -E copy_if_different
                 "${sdl3_BINARY_DIR}/SDL3.dll"
-                $<TARGET_FILE_DIR:imgui-demo>
+                $<TARGET_FILE_DIR:${TARGET_NAME}>
         )
 endif ()
 
-add_dependencies(imgui-demo sdl-copy-dll)
+add_dependencies(${TARGET_NAME} sdl-copy-dll)
 add_dependencies(sdl-copy-dll SDL3::SDL3)
